@@ -6,8 +6,12 @@ interface User {
   categories: number[];
 }
 
+const dbPath = process.env.NODE_ENV === 'production' 
+  ? ':memory:'  // Use in-memory database for Heroku
+  : 'users.db'; // Use file-based database for development
+
 // Initialize database
-const db = new sqlite3.Database("users.db", (err) => {
+const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     console.error("Error opening database:", err);
   } else {
